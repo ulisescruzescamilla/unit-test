@@ -9,6 +9,11 @@ class Repository extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'description',
+        'url'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

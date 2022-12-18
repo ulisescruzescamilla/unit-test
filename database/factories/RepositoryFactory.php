@@ -18,7 +18,9 @@ class RepositoryFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory()
+            'user_id' => User::factory(),
+            'description' => $this->faker->text,
+            'url' => $this->faker->url
         ];
     }
 }
