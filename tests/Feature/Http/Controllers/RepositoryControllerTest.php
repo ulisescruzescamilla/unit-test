@@ -16,5 +16,11 @@ class RepositoryControllerTest extends TestCase
     public function test_auth_redirect()
     {
         $this->get('repositories')->assertRedirect('login');
+        $this->post('repositories',[])->assertRedirect('login');
+        $this->get('repositories/create')->assertRedirect('login');
+        $this->get('repositories/1')->assertRedirect('login');
+        $this->put('repositories/1')->assertRedirect('login');
+        $this->delete('repositories/1')->assertRedirect('login');
+        $this->get('repositories/1/edit')->assertRedirect('login');
     }
 }
