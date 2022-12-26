@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Repository;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -46,6 +47,79 @@ class RepositoryControllerTest extends TestCase
             ->actingAs($user)
             ->post('repositories', $data)
             ->assertRedirect('repositories');
+
+        // check data created on DB
+        // assertDatabaseHas
+        $this->assertDatabaseHas('repositories', $data);
+    }
+
+    public function test_update()
+    {
+        // create payload
+        $data = [
+            'url' => $this->faker->url,
+            'description' => $this->faker->word
+        ];
+        // create user from faker
+        $user = User::factory()->create();
+
+        $repository = Repository::factory()->create();
+     
+        // send payload to create
+        // asserts:
+        // acting as user
+        // post to repositories
+        // redirectTo index repositories
+        $this
+            ->actingAs($user)
+            ->put("repositories/{$repository->id}", $data)
+            ->assertRedirect("repositories/{$repository->id}/edit");
+
+        // check data created on DB
+        // assertDatabaseHas
+        $this->assertDatabaseHas('repositories', $data);
+    }
+
+    public function test_validate_store()
+    {
+        // create user from faker
+        $user = User::factory()->create();
+     
+        $this
+            ->actingAs($user)
+            ->post('repositories', [])
+            ->assertStatus(302)
+            ->assertSessionHasErrors([
+                'url',
+                'description'
+            ]);
+
+        // check data created on DB
+        // assertDatabaseHas
+        // $this->assertDatabaseHas('repositories');
+    }
+
+    public function test_validate_update()
+    {
+        // create payload
+        $data = [
+            'url' => $this->faker->url,
+            'description' => $this->faker->word
+        ];
+        // create user from faker
+        $user = User::factory()->create();
+
+        $repository = Repository::factory()->create();
+     
+        // send payload to create
+        // asserts:
+        // acting as user
+        // post to repositories
+        // redirectTo index repositories
+        $this
+            ->actingAs($user)
+            ->put("repositories/{$repository->id}", $data)
+            ->assertRedirect("repositories/{$repository->id}/edit");
 
         // check data created on DB
         // assertDatabaseHas
