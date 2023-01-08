@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\StoreRepositoryRequest;
+use App\Http\Requests\UpdateRepositoryRequest;
 
 class RepositoryController extends Controller
 {
@@ -13,7 +15,7 @@ class RepositoryController extends Controller
         return view('welcome');
     }
 
-    public function store(Request $request)
+    public function store(StoreRepositoryRequest $request)
     {
         Log::debug(__METHOD__);
         Log::debug(print_r($request->all(), true));
@@ -21,7 +23,7 @@ class RepositoryController extends Controller
         return redirect()->route('repositories.index');
     }
 
-    public function update(Request $request, Repository $repository)
+    public function update(UpdateRepositoryRequest $request, Repository $repository)
     {
         $repository->update($request->all());
 

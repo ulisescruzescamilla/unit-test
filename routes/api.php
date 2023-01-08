@@ -15,4 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('posts', PostController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('posts', PostController::class);
+});

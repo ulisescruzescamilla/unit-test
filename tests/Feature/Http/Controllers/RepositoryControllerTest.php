@@ -37,7 +37,7 @@ class RepositoryControllerTest extends TestCase
         ];
         // create user from faker
         $user = User::factory()->create();
-     
+
         // send payload to create
         // asserts:
         // acting as user
@@ -64,7 +64,7 @@ class RepositoryControllerTest extends TestCase
         $user = User::factory()->create();
 
         $repository = Repository::factory()->create();
-     
+
         // send payload to create
         // asserts:
         // acting as user
@@ -82,9 +82,10 @@ class RepositoryControllerTest extends TestCase
 
     public function test_validate_store()
     {
+        //$this->withoutExceptionHandling();
         // create user from faker
         $user = User::factory()->create();
-     
+
         $this
             ->actingAs($user)
             ->post('repositories', [])
@@ -101,16 +102,11 @@ class RepositoryControllerTest extends TestCase
 
     public function test_validate_update()
     {
-        // create payload
-        $data = [
-            'url' => $this->faker->url,
-            'description' => $this->faker->word
-        ];
         // create user from faker
         $user = User::factory()->create();
 
         $repository = Repository::factory()->create();
-     
+
         // send payload to create
         // asserts:
         // acting as user
@@ -118,11 +114,11 @@ class RepositoryControllerTest extends TestCase
         // redirectTo index repositories
         $this
             ->actingAs($user)
-            ->put("repositories/{$repository->id}", $data)
-            ->assertRedirect("repositories/{$repository->id}/edit");
-
-        // check data created on DB
-        // assertDatabaseHas
-        $this->assertDatabaseHas('repositories', $data);
+            ->put("repositories/{$repository->id}", [])
+            ->assertStatus(302)
+            ->assertSessionHasErrors([
+                'url',
+                'description'
+            ]);
     }
 }
