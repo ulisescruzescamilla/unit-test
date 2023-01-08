@@ -121,4 +121,21 @@ class RepositoryControllerTest extends TestCase
                 'description'
             ]);
     }
+
+    public function test_destroy()
+    {
+        $user = User::factory()->create();
+        $repository = Repository::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->delete("repositories/{$repository->id}")
+            ->assertRedirect('repositories');
+
+        $this->assertDatabaseMissing('repositories', [
+            'id' => $repository->id,
+            'url' => $repository->url,
+            'description' => $repository->description
+        ]);
+    }
 }
