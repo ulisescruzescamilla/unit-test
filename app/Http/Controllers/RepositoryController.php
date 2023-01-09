@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreRepositoryRequest;
 use App\Http\Requests\UpdateRepositoryRequest;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class RepositoryController extends Controller
 {
@@ -32,6 +34,9 @@ class RepositoryController extends Controller
 
     public function destroy(Repository $repository)
     {
+        if (! Gate::allows('delete-repository', $repository)) {
+            abort(403);
+        }
         $repository->delete();
 
         return redirect()->route('repositories.index');

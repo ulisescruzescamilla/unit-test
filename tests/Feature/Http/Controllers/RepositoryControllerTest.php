@@ -160,4 +160,15 @@ class RepositoryControllerTest extends TestCase
             ->put("repositories/{$repository->id}", $data)
             ->assertStatus(403); // policy code error
     }
+
+    public function test_destroy_policy()
+    {
+        $user = User::factory()->create();
+        $repository = Repository::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->delete("repositories/{$repository->id}")
+            ->assertStatus(403);
+    }
 }
