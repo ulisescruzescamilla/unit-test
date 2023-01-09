@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Repository;
 
 class UpdateRepositoryRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateRepositoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->id == $this->repository->user_id;
     }
 
     /**

@@ -63,7 +63,9 @@ class RepositoryControllerTest extends TestCase
         // create user from faker
         $user = User::factory()->create();
 
-        $repository = Repository::factory()->create();
+        $repository = Repository::factory()->create([
+            'user_id' => $user->id
+        ]);
 
         // send payload to create
         // asserts:
@@ -105,7 +107,9 @@ class RepositoryControllerTest extends TestCase
         // create user from faker
         $user = User::factory()->create();
 
-        $repository = Repository::factory()->create();
+        $repository = Repository::factory()->create([
+            'user_id' => $user->id
+        ]);
 
         // send payload to create
         // asserts:
@@ -125,7 +129,9 @@ class RepositoryControllerTest extends TestCase
     public function test_destroy()
     {
         $user = User::factory()->create();
-        $repository = Repository::factory()->create();
+        $repository = Repository::factory()->create([
+            'user_id' => $user->id
+        ]);
 
         $this
             ->actingAs($user)
@@ -137,5 +143,21 @@ class RepositoryControllerTest extends TestCase
             'url' => $repository->url,
             'description' => $repository->description
         ]);
+    }
+
+    public function test_update_policy()
+    {
+        // create user from faker
+        $user = User::factory()->create(); // id = 1
+        $repository = Repository::factory()->create();// user_id = 2
+        $data = [
+            'url' => $this->faker->url,
+            'description' => $this->faker->text
+        ];
+
+        $this
+            ->actingAs($user)
+            ->put("repositories/{$repository->id}", $data)
+            ->assertStatus(403); // policy code error
     }
 }
