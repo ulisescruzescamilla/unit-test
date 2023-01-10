@@ -18,10 +18,13 @@ class RepositoryController extends Controller
         return view('repositories.index', compact('repositories'));
     }
 
+    public function create()
+    {
+        return view('repositories.create');
+    }
+
     public function store(StoreRepositoryRequest $request)
     {
-        Log::debug(__METHOD__);
-        Log::debug(print_r($request->all(), true));
         $request->user()->repositories()->create($request->all());
         return redirect()->route('repositories.index');
     }
