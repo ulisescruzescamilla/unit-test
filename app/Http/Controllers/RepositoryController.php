@@ -34,6 +34,14 @@ class RepositoryController extends Controller
         return view('repositories.show', compact('repository'));
     }
 
+    public function edit(Request $request, Repository $repository)
+    {
+        if (! Gate::allows('show-repository', $repository)) {
+            abort(403);
+        }
+        return view('repositories.edit', compact('repository'));
+    }
+
     public function update(UpdateRepositoryRequest $request, Repository $repository)
     {
         $repository->update($request->all());

@@ -225,4 +225,32 @@ class RepositoryControllerTest extends TestCase
             ->delete("repositories/{$repository->id}")
             ->assertStatus(403);
     }
+
+    public function test_edit()
+    {
+        // create user from faker
+        $user = User::factory()->create();
+        $repository = Repository::factory()->create([
+            'user_id' => $user->id
+        ]);
+
+        $this
+            ->actingAs($user)
+            ->get("/repositories/{$repository->id}/edit")
+            ->assertStatus(200)
+            ->assertSee($repository->url)
+            ->assertSee($repository->description);
+    }
+
+    public function test_edit_policy()
+    {
+        // create user from faker
+        $user = User::factory()->create();
+        $repository = Repository::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->get("/repositories/{$repository->id}/edit")
+            ->assertStatus(403);
+    }
 }
