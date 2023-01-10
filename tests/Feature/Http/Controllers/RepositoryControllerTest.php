@@ -55,7 +55,7 @@ class RepositoryControllerTest extends TestCase
             ->assertSee($repository->url);
     }
 
-    public function text_show()
+    public function test_show()
     {
         // create user from faker
         $user = User::factory()->create();
@@ -70,7 +70,7 @@ class RepositoryControllerTest extends TestCase
             ->assertSee($repository->id);
     }
 
-    public function text_show_policy()
+    public function test_show_policy()
     {
         // create user from faker
         $user = User::factory()->create();
