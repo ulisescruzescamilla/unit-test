@@ -26,6 +26,14 @@ class RepositoryController extends Controller
         return redirect()->route('repositories.index');
     }
 
+    public function show(Request $request, Repository $repository)
+    {
+        if (! Gate::allows('show-repository', $repository)) {
+            abort(403);
+        }
+        return view('repositories.show', compact('repository'));
+    }
+
     public function update(UpdateRepositoryRequest $request, Repository $repository)
     {
         $repository->update($request->all());

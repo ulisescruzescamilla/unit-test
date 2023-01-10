@@ -30,5 +30,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-repository', function (User $user, Repository $repository) {
             return $user->id == $repository->user_id;
         });
+        Gate::define('show-repository', function (User $user, Repository $repository) {
+            return $user->id == $repository->user_id;
+        });
     }
 }

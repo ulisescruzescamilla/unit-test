@@ -55,6 +55,33 @@ class RepositoryControllerTest extends TestCase
             ->assertSee($repository->url);
     }
 
+    public function text_show()
+    {
+        // create user from faker
+        $user = User::factory()->create();
+        $repository = Repository::factory()->create([
+            'user_id' => $user->id
+        ]);
+
+        $this
+            ->actingAs($user)
+            ->get("/repositories/{$repository->id}")
+            ->assertStatus(200)
+            ->assertSee($repository->id);
+    }
+
+    public function text_show_policy()
+    {
+        // create user from faker
+        $user = User::factory()->create();
+        $repository = Repository::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->get("/repositories/{$repository->id}")
+            ->assertStatus(403);
+    }
+
     public function test_store()
     {
         // create payload
