@@ -7,6 +7,9 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <p class="text-right mb-4">
+                <a href="{{route('repositories.create')}}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md text-xs">Crear</a>
+            </p>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
                 <table>
                     <thead>
@@ -27,6 +30,13 @@
                                 </td>
                                 <td class="px-4 py-2">
                                     <a href="{{route('repositories.edit', $repository)}}">Editar</a>
+                                </td>
+                                <td class="px-4 py-2">
+                                    <form action="{{route('repositories.destroy', $repository)}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="submit" value="Eliminar" class="px-4 rounded-md bg-red-500 text-white"/>
+                                    </form>
                                 </td>
                             </tr>
                         @empty
