@@ -14,7 +14,7 @@
         <ul class="max-w-lg bg-white border-r border-gray-300 shadow-xl">
             @foreach ($repositories as $repo)
                 <li class="flex items-center text-black p-2 hover:bg-ray-300">
-                    <img class="{{$repository->user->profile_photo_url}}" class="w-12 h-12 rounded-full mr-2">
+                    <img class="{{$repo->user->profile_photo_url}}" class="w-12 h-12 rounded-full mr-2">
                 </li>
 
                 <div class="flex justify-bewteen w-full">
@@ -22,7 +22,7 @@
                         <h2 class="text-sm font-semibold text-black">{{$repo->url}}</h2>
                         <p>{{$repo->description}}</p>
                     </div>
-                    <span class="text-xs font-medium text-gray-600">{{$repo->created_at}}</span>
+                    <span class="text-xs font-medium text-gray-600">{{$repo->created_at->diffForHumans()}}</span>
                 </div>
             @endforeach
         </ul>
